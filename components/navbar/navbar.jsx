@@ -5,9 +5,12 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 import { app } from "@/firebase/firebase.config";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { data: session } = useSession();
+
+  const router = useRouter();
   // Initialize Cloud Firestore and get a reference to the service
   const db = getFirestore(app);
   const saveUserInfoInFirebase = async () => {
@@ -49,7 +52,12 @@ const Navbar = () => {
         <button className="bg-black text-white p-3 rounded-full">Home</button>
       </div>
       <div>
-        <button className="bg-white p-3 rounded-full">Create</button>
+        <button
+          className="bg-white p-3 rounded-full"
+          onClick={() => router.push("/pin-builder")}
+        >
+          Create
+        </button>
       </div>
       <div className="flex-none gap-2">
         <div className="form-control">
@@ -76,10 +84,13 @@ const Navbar = () => {
               className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
-                <a className="justify-between">
+                <button
+                  onClick={() => router.push("/" + session?.user?.email)}
+                  className="justify-between"
+                >
                   Profile
                   <span className="badge">New</span>
-                </a>
+                </button>
               </li>
               <li>
                 <a>Settings</a>
