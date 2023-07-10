@@ -4,6 +4,16 @@ import { useSession, signIn, signOut } from "next-auth/react";
 
 const Navbar = () => {
   const { data: session } = useSession();
+
+  console.log(session);
+
+  const signInUser = () => {
+    signIn();
+  };
+
+  const signOutUser = () => {
+    signOut();
+  };
   return (
     <div className="navbar bg-base-100">
       <div>
@@ -31,15 +41,16 @@ const Navbar = () => {
             className="input input-bordered w-24 md:w-auto"
           />
         </div>
-        {session ? (
-          <button className="bg-black text-white p-3 rounded-full">
-            Login
-          </button>
-        ) : (
+        {session?.user ? (
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <Image src="" />
+                <Image
+                  src={session?.user?.image}
+                  width={50}
+                  height={50}
+                  alt="user-profile"
+                />
               </div>
             </label>
             <ul
@@ -56,10 +67,17 @@ const Navbar = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <button onClick={() => signOutUser()}>Logout</button>
               </li>
             </ul>
           </div>
+        ) : (
+          <button
+            className="bg-black text-white p-3 rounded-full"
+            onClick={() => signInUser()}
+          >
+            Login
+          </button>
         )}
       </div>
     </div>
