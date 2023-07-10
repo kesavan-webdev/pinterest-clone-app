@@ -1,16 +1,29 @@
 "use client";
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { getFirestore } from "firebase/firestore";
-import app
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
+import { app } from "@/firebase/firebase.config";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const { data: session } = useSession();
+  // Initialize Cloud Firestore and get a reference to the service
+  const db = getFirestore(app);
+  const saveUserInfoInFirebase = async () => {
+    session &&
+      (await setDoc(doc(db, "users", session?.user?.email), {
+        name: session.user.name,
+        email: session.user.email,
+        image: session.user.image,
+      }));
+  };
 
   console.log(session);
+
+  useEffect(() => {
+    saveUserInfoInFirebase();
+  }, [session]);
 
   const signInUser = () => {
     signIn();
