@@ -1,6 +1,11 @@
 "use client";
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { getFirestore } from "firebase/firestore";
+import app
+
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
 
 const Navbar = () => {
   const { data: session } = useSession();
