@@ -3,11 +3,16 @@ const PinItem = ({ value }) => {
   const { title, id, desc, link, image, userName, userEmail, userImage } =
     value;
   return (
-    <div className="card w-96 bg-base-100 shadow-xl hover:z-0">
-      <figure className="w-100 h-100">
-        <Image src={image} alt={title} layout="fill" />
+    <div className="card w-96 bg-base-100 shadow-xl ">
+      <figure className="w-100 h-100 ">
+        <Image
+          className="hover:z-0 hover:cursor-pointer"
+          src={image}
+          alt={title}
+          layout="fill"
+        />
       </figure>
-      <div className="card-body hover:z-10">
+      <div className="card-body z-10">
         <h2 className="card-title">{title}</h2>
         <p>{desc}</p>
         <div className="card-actions justify-end">
