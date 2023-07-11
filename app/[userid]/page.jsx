@@ -12,12 +12,15 @@ import {
 import UserInfo from "@/components/user-info/userinfo";
 import { app } from "@/firebase/firebase.config";
 import PinList from "@/components/userpins/pinlist";
+import { useSession } from "next-auth/react";
 
 const db = getFirestore(app);
 
 const Profile = ({ params }) => {
   const [userInfo, setUserInfo] = useState();
   const [listOfPins, setListOfPins] = useState([]);
+
+  const { data: session } = useSession();
 
   const getUserInfo = async (email) => {
     const docRef = doc(db, "users", email);
@@ -45,7 +48,7 @@ const Profile = ({ params }) => {
     const db = getFirestore(app);
     const q = query(
       collection(db, "pinterest-data"),
-      where("userEmail", "==", userInfo.email)
+      where("userEmail", "==", userInfo?.email)
     );
 
     const querySnapshot = await getDocs(q);

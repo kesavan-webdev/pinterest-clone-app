@@ -19,7 +19,7 @@ const PinItem = ({ value }) => {
           <button className="btn btn-primary">View</button>
         </div>
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-4 z-10 ">
         <div>
           <Image
             className="rounded-full"
