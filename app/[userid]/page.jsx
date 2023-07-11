@@ -42,13 +42,13 @@ const Profile = ({ params }) => {
     if (userInfo) {
       getCurrentUserPins();
     }
-  }, [userInfo, listOfPins]);
+  }, [userInfo]);
 
   const getCurrentUserPins = async () => {
     const db = getFirestore(app);
     const q = query(
       collection(db, "pinterest-data"),
-      where("userEmail", "==", userInfo?.email)
+      where("userEmail", "==", userInfo.email)
     );
 
     const querySnapshot = await getDocs(q);
