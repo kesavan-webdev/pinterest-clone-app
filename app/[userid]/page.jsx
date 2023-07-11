@@ -42,7 +42,7 @@ const Profile = ({ params }) => {
     if (userInfo) {
       getCurrentUserPins();
     }
-  }, [userInfo]);
+  }, [userInfo, listOfPins]);
 
   const getCurrentUserPins = async () => {
     const db = getFirestore(app);

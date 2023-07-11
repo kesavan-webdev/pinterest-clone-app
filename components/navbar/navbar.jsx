@@ -29,13 +29,13 @@ const Navbar = () => {
   }, [session]);
 
   const signInUser = () => {
-    signIn();
     router.push("/");
+    signIn();
   };
 
   const signOutUser = () => {
-    signOut();
     router.push("/");
+    signOut();
   };
 
   const handleCreate = () => {
@@ -43,6 +43,14 @@ const Navbar = () => {
     if (session?.user) {
     } else {
       signInUser();
+    }
+  };
+
+  const handleProfileClick = () => {
+    if (session?.user) {
+      router.push("/" + session?.user?.email);
+    } else {
+      router.push("/");
     }
   };
   return (
@@ -64,7 +72,12 @@ const Navbar = () => {
         </a>
       </div>
       <div>
-        <button className="bg-black text-white p-3 rounded-full">Home</button>
+        <button
+          className="bg-black text-white p-3 rounded-full"
+          onClick={() => router.push("/")}
+        >
+          Home
+        </button>
       </div>
       <div>
         <button
@@ -100,7 +113,7 @@ const Navbar = () => {
             >
               <li>
                 <button
-                  onClick={() => router.push("/" + session?.user?.email)}
+                  onClick={() => handleProfileClick()}
                   className="justify-between"
                 >
                   Profile
@@ -111,14 +124,22 @@ const Navbar = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <button onClick={() => signOutUser()}>Logout</button>
+                <button
+                  onClick={() => {
+                    signOutUser();
+                  }}
+                >
+                  Logout
+                </button>
               </li>
             </ul>
           </div>
         ) : (
           <button
             className="bg-black text-white p-3 rounded-full"
-            onClick={() => signInUser()}
+            onClick={() => {
+              signInUser();
+            }}
           >
             Login
           </button>

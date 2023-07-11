@@ -28,10 +28,14 @@ const Form = () => {
 
   const handleSubmit = (e) => {
     if (session?.user) {
-      e.preventDefault();
-      uploadFile();
-      setLoading(true);
-      router.push("/" + session?.user?.email);
+      if (title && desc && link && file) {
+        e.preventDefault();
+        uploadFile();
+        setLoading(true);
+        router.push("/" + session?.user?.email);
+      } else {
+        alert("please fill all the field");
+      }
     } else {
       router.push("/");
     }
