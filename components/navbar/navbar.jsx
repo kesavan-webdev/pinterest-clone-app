@@ -30,10 +30,12 @@ const Navbar = () => {
 
   const signInUser = () => {
     signIn();
+    router.push("/");
   };
 
   const signOutUser = () => {
     signOut();
+    router.push("/");
   };
   return (
     <div className="navbar bg-base-100">
@@ -46,7 +48,12 @@ const Navbar = () => {
         />
       </div>
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl">Pinterest</a>
+        <a
+          className="btn btn-ghost normal-case text-xl"
+          onClick={() => router.push("/")}
+        >
+          Pinterest
+        </a>
       </div>
       <div>
         <button className="bg-black text-white p-3 rounded-full">Home</button>
