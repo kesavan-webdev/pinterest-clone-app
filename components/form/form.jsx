@@ -5,13 +5,19 @@ import UserTag from "../user-tag/usertag";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { app } from "@/firebase/firebase.config";
 import { useSession } from "next-auth/react";
-import { doc, setDoc, getFirestore } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getFirestore,
+  addDoc,
+  collection,
+} from "firebase/firestore";
 
 const Form = () => {
-  const [title, setTitle] = useState();
-  const [desc, setDesc] = useState();
-  const [link, setLink] = useState();
-  const [file, setFile] = useState();
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [link, setLink] = useState("");
+  const [file, setFile] = useState("");
 
   const { data: session } = useSession();
 
@@ -21,24 +27,22 @@ const Form = () => {
     uploadFile();
   };
 
-  const uploadFile = async () => {
+  const uploadFile = () => {
     const postId = Date.now();
 
     // Initialize Cloud Storage and get a reference to the service
     const storage = getStorage(app);
-    const db = getFirestore(app);
+
     // Create a reference to 'mountains.jpg'
-    const imageRef = ref(storage, "pinterest/" + file.name);
+    const imageRef = ref(storage, "pinterest/" + file?.name);
     // 'file' comes from the Blob or File API
-    await uploadBytes(imageRef, file)
-      .then((snapshot) => {
-        console.log("Uploaded a blob or file!");
-      })
-      .then(
-        // Handle successful uploads on complete
-        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-        await getDownloadURL(imageRef).then(async (downloadURL) => {
+    uploadBytes(imageRef, file).then(
+      // Handle successful uploads on complete
+      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+      () => {
+        getDownloadURL(imageRef).then(async (downloadURL) => {
           console.log("File available at", downloadURL);
+
           const postData = {
             title,
             desc,
@@ -48,13 +52,15 @@ const Form = () => {
             userEmail: session.user.email,
             userImage: session.user.image,
           };
-          await setDoc(doc(db, "pinterest-data", postId), postData).then(
+          const db = getFirestore(app);
+          await addDoc(collection(db, "pinterest-data"), postData).then(
             (res) => {
               console.log("saved");
             }
           );
-        })
-      );
+        });
+      }
+    );
   };
 
   return (
