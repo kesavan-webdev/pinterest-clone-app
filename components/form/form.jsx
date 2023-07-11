@@ -13,18 +13,28 @@ import {
   collection,
 } from "firebase/firestore";
 
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useRouter } from "next/navigation";
+
 const Form = () => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [link, setLink] = useState("");
   const [file, setFile] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { data: session } = useSession();
+  const router = useRouter();
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(title, desc, link, file);
-    uploadFile();
+    if (session?.user) {
+      e.preventDefault();
+      uploadFile();
+      setLoading(true);
+      router.push("/" + session?.user?.email);
+    } else {
+      router.push("/");
+    }
   };
 
   const uploadFile = () => {
@@ -51,6 +61,7 @@ const Form = () => {
             userName: session.user.name,
             userEmail: session.user.email,
             userImage: session.user.image,
+            id: postId,
           };
           const db = getFirestore(app);
           await addDoc(collection(db, "pinterest-data"), postData).then(
@@ -113,8 +124,14 @@ const Form = () => {
       <div>
         <UserTag />
       </div>
-      <button type="submit" className="btn btn-success mt-10">
-        save
+      <button type="submit" className="btn btn-success mt-10 ">
+        {loading ? (
+          <span className="animate-spin">
+            <AiOutlineLoading3Quarters />
+          </span>
+        ) : (
+          <span>save</span>
+        )}
       </button>
     </form>
   );

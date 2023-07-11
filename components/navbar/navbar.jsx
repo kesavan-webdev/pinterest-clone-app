@@ -37,6 +37,14 @@ const Navbar = () => {
     signOut();
     router.push("/");
   };
+
+  const handleCreate = () => {
+    router.push("/pin-builder");
+    if (session?.user) {
+    } else {
+      signInUser();
+    }
+  };
   return (
     <div className="navbar bg-base-100">
       <div>
@@ -61,7 +69,7 @@ const Navbar = () => {
       <div>
         <button
           className="bg-white p-3 rounded-full"
-          onClick={() => router.push("/pin-builder")}
+          onClick={() => handleCreate()}
         >
           Create
         </button>
