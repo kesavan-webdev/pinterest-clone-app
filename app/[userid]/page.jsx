@@ -61,7 +61,7 @@ const Profile = ({ params }) => {
   };
 
   return (
-    userInfo && (
+    session && (
       <>
         <UserInfo userInfo={userInfo} />
         <PinList listOfPins={listOfPins} />

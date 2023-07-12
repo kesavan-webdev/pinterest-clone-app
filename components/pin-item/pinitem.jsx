@@ -25,11 +25,11 @@ const PinItem = ({ value }) => {
               className="rounded-full"
               src={userImage}
               alt="user-profile-photo"
-              width={50}
-              height={50}
+              width={30}
+              height={30}
             />
           </div>
-          <div>
+          <div className="text-sm">
             <h4>{userName}</h4>
             <h5>{userEmail}</h5>
           </div>
