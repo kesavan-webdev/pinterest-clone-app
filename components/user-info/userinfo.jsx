@@ -6,7 +6,7 @@ const UserInfo = ({ userInfo }) => {
     <div className="flex flex-col items-center gap-3 mt-10">
       <div>
         <Image
-          src={userInfo.image}
+          src={userInfo?.image}
           width={100}
           height={100}
           alt="user-profile-photo"
@@ -14,10 +14,10 @@ const UserInfo = ({ userInfo }) => {
         />
       </div>
       <div>
-        <h3>{userInfo.name}</h3>
+        <h3>{userInfo?.name}</h3>
       </div>
       <div>
-        <h5 className="text-gray-500">{userInfo.email}</h5>
+        <h5 className="text-gray-500">{userInfo?.email}</h5>
       </div>
       <div>
         <button className="btn">Share</button>
