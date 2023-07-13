@@ -78,7 +78,7 @@ const Form = () => {
     );
   };
 
-  return (
+  return session?.user ? (
     <form
       className="flex flex-col justify-center items-center mt-10"
       onSubmit={(e) => handleSubmit(e)}
@@ -138,6 +138,8 @@ const Form = () => {
         )}
       </button>
     </form>
+  ) : (
+    router.push("/")
   );
 };
 
